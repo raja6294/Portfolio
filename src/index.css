@@ -1,0 +1,282 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Futuristic Portfolio Design System - Raja Banerjee */
+
+@layer base {
+  :root {
+    /* Core Colors - Light Mode */
+    --background: 220 20% 97%;
+    --foreground: 220 25% 10%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 220 25% 10%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 25% 10%;
+
+    --primary: 192 95% 45%;
+    --primary-foreground: 220 25% 5%;
+
+    --secondary: 220 15% 92%;
+    --secondary-foreground: 220 25% 15%;
+
+    --muted: 220 15% 94%;
+    --muted-foreground: 220 10% 45%;
+
+    --accent: 270 70% 60%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 220 15% 88%;
+    --input: 220 15% 88%;
+    --ring: 192 95% 45%;
+
+    --radius: 0.75rem;
+
+    /* Custom Portfolio Colors */
+    --glow-primary: 192 95% 55%;
+    --glow-accent: 270 70% 65%;
+    --glass-bg: 0 0% 100% / 0.7;
+    --glass-border: 0 0% 100% / 0.3;
+    
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(192, 95%, 45%), hsl(210, 90%, 50%));
+    --gradient-accent: linear-gradient(135deg, hsl(192, 95%, 45%), hsl(270, 70%, 60%));
+    --gradient-hero: linear-gradient(180deg, hsl(220, 20%, 97%) 0%, hsl(220, 25%, 92%) 100%);
+    --gradient-glow: radial-gradient(circle at center, hsl(192, 95%, 45% / 0.15), transparent 70%);
+    
+    /* Shadows */
+    --shadow-sm: 0 2px 8px hsl(220, 25%, 10% / 0.05);
+    --shadow-md: 0 4px 16px hsl(220, 25%, 10% / 0.08);
+    --shadow-lg: 0 8px 32px hsl(220, 25%, 10% / 0.1);
+    --shadow-glow: 0 0 40px hsl(192, 95%, 45% / 0.2);
+    --shadow-glow-accent: 0 0 40px hsl(270, 70%, 60% / 0.2);
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 222 35% 8%;
+    --foreground: 210 30% 96%;
+
+    --card: 222 30% 12%;
+    --card-foreground: 210 30% 96%;
+
+    --popover: 222 30% 12%;
+    --popover-foreground: 210 30% 96%;
+
+    --primary: 192 95% 55%;
+    --primary-foreground: 222 35% 8%;
+
+    --secondary: 222 25% 18%;
+    --secondary-foreground: 210 30% 90%;
+
+    --muted: 222 25% 15%;
+    --muted-foreground: 220 15% 60%;
+
+    --accent: 270 70% 65%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 62.8% 50%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 222 20% 20%;
+    --input: 222 20% 20%;
+    --ring: 192 95% 55%;
+
+    /* Custom Portfolio Colors - Dark */
+    --glow-primary: 192 95% 60%;
+    --glow-accent: 270 70% 70%;
+    --glass-bg: 222 30% 12% / 0.8;
+    --glass-border: 0 0% 100% / 0.1;
+    
+    /* Gradients - Dark */
+    --gradient-primary: linear-gradient(135deg, hsl(192, 95%, 55%), hsl(210, 90%, 55%));
+    --gradient-accent: linear-gradient(135deg, hsl(192, 95%, 55%), hsl(270, 70%, 65%));
+    --gradient-hero: linear-gradient(180deg, hsl(222, 35%, 8%) 0%, hsl(222, 40%, 5%) 100%);
+    --gradient-glow: radial-gradient(circle at center, hsl(192, 95%, 55% / 0.1), transparent 70%);
+    
+    /* Shadows - Dark */
+    --shadow-sm: 0 2px 8px hsl(0, 0%, 0% / 0.3);
+    --shadow-md: 0 4px 16px hsl(0, 0%, 0% / 0.4);
+    --shadow-lg: 0 8px 32px hsl(0, 0%, 0% / 0.5);
+    --shadow-glow: 0 0 60px hsl(192, 95%, 55% / 0.3);
+    --shadow-glow-accent: 0 0 60px hsl(270, 70%, 65% / 0.25);
+
+    --sidebar-background: 222 35% 10%;
+    --sidebar-foreground: 210 30% 90%;
+    --sidebar-primary: 192 95% 55%;
+    --sidebar-primary-foreground: 222 35% 8%;
+    --sidebar-accent: 222 25% 18%;
+    --sidebar-accent-foreground: 210 30% 96%;
+    --sidebar-border: 222 20% 20%;
+    --sidebar-ring: 192 95% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Space Grotesk', sans-serif;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-muted;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-primary/50 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-primary/70;
+  }
+}
+
+@layer components {
+  /* Glass morphism card */
+  .glass-card {
+    @apply relative overflow-hidden rounded-2xl;
+    background: hsl(var(--glass-bg));
+    border: 1px solid hsl(var(--glass-border));
+    backdrop-filter: blur(20px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  /* Glow effect on hover */
+  .glow-hover {
+    @apply transition-all duration-500;
+  }
+
+  .glow-hover:hover {
+    box-shadow: var(--shadow-glow);
+  }
+
+  /* Tech badge style */
+  .tech-badge {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium;
+    @apply bg-primary/10 text-primary border border-primary/20;
+  }
+
+  /* Gradient text */
+  .gradient-text {
+    background: var(--gradient-accent);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Code/mono text */
+  .mono-text {
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* Section container */
+  .section-container {
+    @apply max-w-6xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Animated underline */
+  .animated-underline {
+    @apply relative;
+  }
+
+  .animated-underline::after {
+    content: '';
+    @apply absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300;
+  }
+
+  .animated-underline:hover::after {
+    @apply w-full;
+  }
+
+  /* Progress bar */
+  .skill-progress {
+    @apply h-2 rounded-full bg-muted overflow-hidden;
+  }
+
+  .skill-progress-fill {
+    @apply h-full rounded-full;
+    background: var(--gradient-primary);
+  }
+
+  /* 3D card effect */
+  .card-3d {
+    @apply transition-transform duration-300;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+  }
+
+  .card-3d:hover {
+    transform: translateY(-8px) rotateX(2deg);
+  }
+
+  /* Floating animation */
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  /* Pulse glow */
+  @keyframes pulse-glow {
+    0%, 100% {
+      box-shadow: 0 0 20px hsl(var(--primary) / 0.3);
+    }
+    50% {
+      box-shadow: 0 0 40px hsl(var(--primary) / 0.5);
+    }
+  }
+
+  .animate-pulse-glow {
+    animation: pulse-glow 3s ease-in-out infinite;
+  }
+
+  /* Grid pattern background */
+  .grid-pattern {
+    background-image: 
+      linear-gradient(hsl(var(--border) / 0.5) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--border) / 0.5) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+}
+
+@layer utilities {
+  /* Text balance for better typography */
+  .text-balance {
+    text-wrap: balance;
+  }
+}
