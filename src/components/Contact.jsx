@@ -19,8 +19,8 @@ const contactInfo = [
   {
     icon: Mail,
     label: "Email",
-    value: "raja.banerjee@example.com",
-    href: "mailto:raja.banerjee@example.com",
+    value: "rajapalpai2022@gmail.com",
+    href: "rajapalpai2022@gmail.com",
   },
   {
     icon: MapPin,
@@ -39,7 +39,7 @@ export function Contact() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const { toast } = useToast();
-  
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
