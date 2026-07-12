@@ -63,25 +63,32 @@ export function Skills() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
+  const glowGradients = [
+    "group-hover:border-cyan-500/35 group-hover:shadow-[0_0_25px_rgba(6,182,212,0.15)]",
+    "group-hover:border-purple-500/35 group-hover:shadow-[0_0_25px_rgba(168,85,247,0.15)]",
+    "group-hover:border-emerald-500/35 group-hover:shadow-[0_0_25px_rgba(16,185,129,0.15)]",
+  ];
+
   return (
-    <section id="skills" className="py-24 relative overflow-hidden">
-      {/* Background effects */}
-      <div className="absolute left-0 top-1/2 w-1/3 h-1/2 bg-accent/5 rounded-full blur-3xl -translate-y-1/2 -translate-x-1/2" />
+    <section id="skills" className="py-24 relative overflow-hidden bg-background">
+      {/* Background glow blots */}
+      <div className="absolute left-0 top-1/2 w-[350px] h-[350px] bg-cyan-500/5 rounded-full blur-[90px] -translate-y-1/2 -translate-x-1/3 pointer-events-none" />
+      <div className="absolute right-0 bottom-0 w-[250px] h-[250px] bg-purple-500/5 rounded-full blur-[80px] translate-x-1/3 pointer-events-none" />
 
       <div className="section-container relative" ref={ref}>
+        {/* Clean Header */}
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <span className="mono-text text-sm text-primary">// Skills & Technologies</span>
-          <h2 className="text-4xl md:text-5xl font-bold mt-2">
+          <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight">
             My <span className="gradient-text">Tech Stack</span>
           </h2>
         </motion.div>
 
-        {/* Skill Categories */}
+        {/* Skill Cards Grid */}
         <div className="grid md:grid-cols-3 gap-8 mb-16">
           {skillCategories.map((category, categoryIndex) => (
             <motion.div
@@ -89,10 +96,10 @@ export function Skills() {
               initial={{ opacity: 0, y: 40 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: categoryIndex * 0.1 }}
-              className="glass-card p-6 space-y-6"
+              className={`premium-card p-6 space-y-6 group hover:translate-y-[-4px] transition-all duration-300 ${glowGradients[categoryIndex % glowGradients.length]}`}
             >
-              <h3 className="font-semibold text-lg flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-primary" />
+              <h3 className="font-bold text-lg flex items-center gap-2.5">
+                <span className="w-2.5 h-2.5 rounded-full bg-gradient-to-r from-cyan-400 to-purple-500" />
                 {category.title}
               </h3>
               <div className="space-y-4">
@@ -109,21 +116,21 @@ export function Skills() {
           ))}
         </div>
 
-        {/* Tech Stack Marquee */}
+        {/* Dynamic Tech Stack Slider Banner */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ duration: 0.6, delay: 0.5 }}
-          className="relative overflow-hidden py-6"
+          className="relative overflow-hidden py-8 rounded-2xl border border-border/40 bg-secondary/15 backdrop-blur-md"
         >
-          <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-background to-transparent z-10" />
-          <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-background to-transparent z-10" />
+          <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-background to-transparent z-10" />
+          <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-background to-transparent z-10" />
           
-          <div className="flex gap-4 animate-[slide_30s_linear_infinite] hover:pause">
+          <div className="flex gap-4 animate-[slide_32s_linear_infinite] hover:pause">
             {[...techStack, ...techStack].map((tech, index) => (
               <span
                 key={`${tech}-${index}`}
-                className="px-6 py-3 rounded-full bg-secondary text-secondary-foreground font-medium whitespace-nowrap border border-border hover:border-primary/50 hover:bg-primary/10 transition-colors cursor-default"
+                className="px-6 py-3 rounded-full bg-background border border-border/60 hover:border-primary/50 text-sm font-semibold hover:bg-primary/5 transition-all duration-300 cursor-default shadow-sm"
               >
                 {tech}
               </span>

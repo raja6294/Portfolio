@@ -417,13 +417,12 @@ export function Projects() {
       <div className="section-container relative" ref={ref}>
         {/* ── Heading ── */}
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <span className="mono-text text-sm text-primary">// My Work</span>
-          <h2 className="text-4xl md:text-5xl font-bold mt-2">
+          <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight">
             Featured <span className="gradient-text">Projects</span>
           </h2>
           <p className="text-muted-foreground mt-4 max-w-2xl mx-auto leading-relaxed">
