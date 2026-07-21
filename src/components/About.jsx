@@ -1,13 +1,13 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
-import { GraduationCap, Code2, Rocket, Heart } from "lucide-react";
+import { GraduationCap, Code2, Rocket, Heart, Download } from "lucide-react";
 
 const highlights = [
   {
     icon: GraduationCap,
     title: "Education",
-    description: "2nd Year B.Tech student in Information Technology",
+    description: "3rd Year B.Tech student in Information Technology",
   },
   {
     icon: Code2,
@@ -22,9 +22,88 @@ const highlights = [
   {
     icon: Heart,
     title: "Passion",
-    description: "Creating clean, efficient, and user-friendly solutions",
+    description: "Full-Stack Development\nArtificial Intelligence\nUI/UX Design\nPlaying Guitar",
   },
 ];
+
+function DownloadCVButton() {
+  const buttonRef = useRef(null);
+
+  const createRipple = (e) => {
+    const button = buttonRef.current;
+    if (!button) return;
+    const rect = button.getBoundingClientRect();
+    const size = Math.max(rect.width, rect.height);
+    const x = e.clientX - rect.left - size / 2;
+    const y = e.clientY - rect.top - size / 2;
+
+    const ripple = document.createElement("span");
+    ripple.style.cssText = `
+      position: absolute;
+      width: ${size}px;
+      height: ${size}px;
+      left: ${x}px;
+      top: ${y}px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.3);
+      transform: scale(0);
+      animation: cv-ripple 0.65s linear;
+      pointer-events: none;
+      z-index: 10;
+    `;
+    button.appendChild(ripple);
+    setTimeout(() => ripple.remove(), 750);
+  };
+
+  return (
+    <>
+      <motion.button
+        ref={buttonRef}
+        onClick={createRipple}
+        whileHover={{ y: -4, scale: 1.03 }}
+        whileTap={{ scale: 0.97 }}
+        className="cv-download-btn relative overflow-hidden inline-flex items-center gap-2.5 font-bold px-8 py-3.5 rounded-xl text-sm text-white mt-2"
+      >
+        {/* Gradient background */}
+        <span className="absolute inset-0 bg-gradient-to-r from-emerald-400 via-cyan-500 to-blue-500 rounded-xl z-0" />
+        {/* Glow layer */}
+        <span className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-sm bg-gradient-to-r from-emerald-400 via-cyan-500 to-blue-500 z-0" />
+        {/* Shimmer */}
+        <span className="cv-shimmer absolute inset-0 z-0" />
+        <Download className="w-4 h-4 relative z-10" />
+        <span className="relative z-10 tracking-wide">Download CV</span>
+      </motion.button>
+
+      <style>{`
+        @keyframes cv-ripple {
+          to { transform: scale(4); opacity: 0; }
+        }
+        .cv-download-btn {
+          box-shadow: 0 0 20px rgba(6, 182, 212, 0.35), 0 4px 15px rgba(0,0,0,0.2);
+          transition: box-shadow 0.3s ease, transform 0.3s ease;
+        }
+        .cv-download-btn:hover {
+          box-shadow: 0 0 40px rgba(6, 182, 212, 0.6), 0 8px 25px rgba(0,0,0,0.3);
+        }
+        .cv-shimmer {
+          background: linear-gradient(
+            45deg,
+            transparent 40%,
+            rgba(255, 255, 255, 0.35) 50%,
+            transparent 60%
+          );
+          background-size: 200% 200%;
+          animation: shimmer-slide 2.5s infinite linear;
+          border-radius: inherit;
+        }
+        @keyframes shimmer-slide {
+          0% { background-position: -100% 0; }
+          100% { background-position: 200% 0; }
+        }
+      `}</style>
+    </>
+  );
+}
 
 export function About() {
   const ref = useRef(null);
@@ -37,7 +116,7 @@ export function About() {
       <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-accent/5 rounded-full blur-[80px] translate-y-1/3 -translate-x-1/3 pointer-events-none" />
 
       <div className="section-container relative" ref={ref}>
-        {/* Clean, label-free heading */}
+        {/* Heading */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -50,7 +129,7 @@ export function About() {
         </motion.div>
 
         <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Left Column - Upgraded Bio Card */}
+          {/* Left Column - Bio Card + Download CV */}
           <motion.div
             initial={{ opacity: 0, x: -40 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
@@ -69,7 +148,7 @@ export function About() {
               </div>
 
               <p className="text-muted-foreground leading-relaxed text-sm md:text-base">
-                I'm a 2nd year B.Tech student pursuing Information Technology at{" "}
+                I'm a 3rd year B.Tech student pursuing Information Technology at{" "}
                 <span className="text-foreground font-semibold">JIS College of Engineering</span>.
                 My journey in programming started with curiosity about how web technologies interact,
                 which blossomed into a deep passion for building high-performance full-stack web applications.
@@ -88,10 +167,15 @@ export function About() {
                   </span>
                 ))}
               </div>
+
+              {/* Download CV Button */}
+              <div className="pt-2">
+                <DownloadCVButton />
+              </div>
             </div>
           </motion.div>
 
-          {/* Right Column - Upgraded Highlight Grid */}
+          {/* Right Column - Highlight Grid */}
           <motion.div
             initial={{ opacity: 0, x: 40 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}

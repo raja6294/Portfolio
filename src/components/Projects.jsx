@@ -1,7 +1,6 @@
 import { motion, useInView, AnimatePresence } from "framer-motion";
-import { useRef, useEffect, useState } from "react";
+import { useRef, useState } from "react";
 import { ExternalLink, Github, Folder, Brain, Shield, Map, BarChart3, Bot, Globe } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 
 // ─── Static "hardcoded" projects ───────────────────────────────────────────────
@@ -377,36 +376,9 @@ function ProjectCard({ project, index }) {
 export function Projects() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const [supabaseProjects, setSupabaseProjects] = useState([]);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    async function fetchProjects() {
-      try {
-        const { data, error } = await supabase
-          .from("projects")
-          .select("*")
-          .order("display_order", { ascending: true });
-
-        if (!error && data) {
-          setSupabaseProjects(data);
-        }
-      } catch (_) {
-        // fallback silently
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchProjects();
-  }, []);
-
-  // Merge: static projects first, then anything from Supabase not already listed
-  const allProjects = [
-    ...STATIC_PROJECTS,
-    ...supabaseProjects.filter(
-      (sp) => !STATIC_PROJECTS.some((s) => s.title === sp.title)
-    ),
-  ];
+  // Use static projects — no backend fetch needed for portfolio display
+  const allProjects = STATIC_PROJECTS;
 
   return (
     <section id="projects" className="py-24 relative overflow-hidden">
@@ -432,32 +404,11 @@ export function Projects() {
         </motion.div>
 
         {/* ── Grid ── */}
-        {loading ? (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="glass-card animate-pulse rounded-2xl overflow-hidden">
-                <div className="h-44 bg-muted" />
-                <div className="p-6 space-y-4">
-                  <div className="h-3 bg-muted rounded w-1/3" />
-                  <div className="h-5 bg-muted rounded w-3/4" />
-                  <div className="h-4 bg-muted rounded w-full" />
-                  <div className="h-4 bg-muted rounded w-2/3" />
-                  <div className="flex gap-2">
-                    <div className="h-6 bg-muted rounded-full w-14" />
-                    <div className="h-6 bg-muted rounded-full w-14" />
-                    <div className="h-6 bg-muted rounded-full w-14" />
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {allProjects.map((project, index) => (
-              <ProjectCard key={project.id} project={project} index={index} />
-            ))}
-          </div>
-        )}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {allProjects.map((project, index) => (
+            <ProjectCard key={project.id} project={project} index={index} />
+          ))}
+        </div>
 
         {/* ── GitHub CTA ── */}
         <motion.div

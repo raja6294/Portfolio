@@ -5,8 +5,8 @@ import { Send, Mail, MapPin, Github, Linkedin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
+import { submitContactForm } from "@/services/api";
+import { toast } from "sonner";
 import { z } from "zod";
 
 const contactSchema = z.object({
@@ -38,7 +38,6 @@ const socialLinks = [
 export function Contact() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const { toast } = useToast();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -76,28 +75,25 @@ export function Contact() {
 
     setLoading(true);
 
-    const { error } = await supabase.from("messages").insert([
-      {
+    try {
+      await submitContactForm({
         name: result.data.name,
         email: result.data.email,
         message: result.data.message,
-      },
-    ]);
-
-    setLoading(false);
-
-    if (error) {
-      toast({
-        title: "Error",
-        description: "Failed to send message. Please try again.",
-        variant: "destructive",
       });
-    } else {
-      toast({
-        title: "Message sent!",
+
+      toast.success("Message sent!", {
         description: "Thank you for reaching out. I'll get back to you soon.",
       });
       setFormData({ name: "", email: "", message: "" });
+    } catch (err) {
+      const serverMsg =
+        err?.response?.data?.error ||
+        err?.response?.data?.message ||
+        "Failed to send message. Please try again.";
+      toast.error("Error", { description: serverMsg });
+    } finally {
+      setLoading(false);
     }
   };
 
