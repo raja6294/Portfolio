@@ -57,33 +57,36 @@ function DownloadCVButton() {
 
   return (
     <>
-      <motion.button
+      <motion.a
         ref={buttonRef}
+        href="/resume/Raja_Banerjee_Resume.pdf"
+        download="Raja_Banerjee_Resume.pdf"
         onClick={createRipple}
-        whileHover={{ y: -4, scale: 1.03 }}
-        whileTap={{ scale: 0.97 }}
-        className="cv-download-btn relative overflow-hidden inline-flex items-center gap-2.5 font-bold px-8 py-3.5 rounded-xl text-sm text-white mt-2"
+        whileHover={{ y: -3, scale: 1.05 }}
+        whileTap={{ scale: 0.96 }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
+        aria-label="Download resume PDF"
+        className="group cv-download-btn relative overflow-hidden inline-flex items-center justify-center gap-2.5 font-semibold px-8 py-3.5 rounded-xl text-sm text-white mt-2 border border-white/20 bg-gradient-to-r from-cyan-500 via-sky-500 to-violet-500 shadow-[0_0_0_1px_rgba(255,255,255,0.15),0_10px_30px_rgba(14,165,233,0.28)] transition-all duration-300"
       >
-        {/* Gradient background */}
-        <span className="absolute inset-0 bg-gradient-to-r from-emerald-400 via-cyan-500 to-blue-500 rounded-xl z-0" />
-        {/* Glow layer */}
-        <span className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-sm bg-gradient-to-r from-emerald-400 via-cyan-500 to-blue-500 z-0" />
-        {/* Shimmer */}
-        <span className="cv-shimmer absolute inset-0 z-0" />
-        <Download className="w-4 h-4 relative z-10" />
-        <span className="relative z-10 tracking-wide">Download CV</span>
-      </motion.button>
+        <span className="absolute inset-0 rounded-xl bg-gradient-to-r from-cyan-400/40 via-sky-400/20 to-violet-500/40 opacity-0 blur-sm transition-opacity duration-300 group-hover:opacity-100" />
+        <span className="absolute inset-0 rounded-xl bg-gradient-to-r from-cyan-500 via-sky-500 to-violet-500" />
+        <span className="cv-shimmer absolute inset-0 rounded-xl z-0" />
+        <span className="relative z-10 inline-flex items-center gap-2.5 tracking-wide">
+          <Download className="w-4 h-4" />
+          <span>Download CV</span>
+        </span>
+      </motion.a>
 
       <style>{`
         @keyframes cv-ripple {
           to { transform: scale(4); opacity: 0; }
         }
         .cv-download-btn {
-          box-shadow: 0 0 20px rgba(6, 182, 212, 0.35), 0 4px 15px rgba(0,0,0,0.2);
+          box-shadow: 0 0 0 1px rgba(255,255,255,0.15), 0 10px 30px rgba(14,165,233,0.28);
           transition: box-shadow 0.3s ease, transform 0.3s ease;
         }
         .cv-download-btn:hover {
-          box-shadow: 0 0 40px rgba(6, 182, 212, 0.6), 0 8px 25px rgba(0,0,0,0.3);
+          box-shadow: 0 0 30px rgba(34,211,238,0.35), 0 12px 40px rgba(139,92,246,0.3);
         }
         .cv-shimmer {
           background: linear-gradient(
