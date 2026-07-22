@@ -369,7 +369,7 @@ export function Hero() {
                 {[
                   { icon: Github, href: "https://github.com/raja6294", label: "GitHub", accent: "#06b6d4", glow: "0 0 15px rgba(6,182,212,0.25)" },
                   { icon: Linkedin, href: "https://www.linkedin.com/in/rajabanerjee46", label: "LinkedIn", accent: "#a855f7", glow: "0 0 15px rgba(168,85,247,0.25)" },
-                  { icon: Mail, href: "mailto:rajapalpai2022@gmail.com", label: "Email", accent: "#6366f1", glow: "0 0 15px rgba(99,102,241,0.25)" },
+                  { icon: Mail, href: "https://mail.google.com/mail/?view=cm&fs=1&to=rajapalpai2022@gmail.com&su=Portfolio%20Contact&body=Hi%20Raja,", label: "Email", accent: "#6366f1", glow: "0 0 15px rgba(99,102,241,0.25)" },
                   {
                     icon: Instagram,
                     href: "https://www.instagram.com/banerjee._06?igsh=MWt2a2lxZXkxY283Zw==",
@@ -390,7 +390,8 @@ export function Hero() {
                     }`}
                     whileHover={{ scale: 1.1, y: -3, boxShadow: social.glow }}
                     whileTap={{ scale: 0.95 }}
-                    aria-label={social.label}
+                    aria-label={social.label === "Email" ? "Send Email" : social.label}
+                    title={social.label === "Email" ? "Send me an Email" : undefined}
                   >
                     <social.icon className="w-5 h-5" />
                   </motion.a>
