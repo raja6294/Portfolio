@@ -1,66 +1,69 @@
 const Contact = require("../models/Contact");
-const nodemailer = require("nodemailer");
+const { validateContactInput } = require("../utils/contactValidation");
+const { sendEmail, getProfilePhotoAttachment } = require("../utils/mailer");
+const {
+  buildOwnerNotificationEmail,
+  buildVisitorConfirmationEmail,
+} = require("../templates/emailTemplates");
 
 exports.sendMessage = async (req, res) => {
   try {
-    const { name, email, message } = req.body;
+    const validation = validateContactInput(req.body);
 
-    if (!name || !email || !message) {
+    if (!validation.valid) {
       return res.status(400).json({
         success: false,
-        message: "All fields are required",
+        message: validation.errors[0],
+        errors: validation.errors,
       });
     }
 
-    // Save to MongoDB
-    const newContact = new Contact({
+    const { name, email, message } = validation.data;
+
+    const newContact = new Contact({ name, email, message });
+    await newContact.save();
+
+    const ownerEmail = buildOwnerNotificationEmail({
       name,
       email,
       message,
+      createdAt: newContact.createdAt,
     });
 
-    await newContact.save();
-
-    // Gmail Transport
-
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      },
-    });
-
-    // Send Mail
-
-    await transporter.sendMail({
-      from: process.env.EMAIL_USER,
+    await sendEmail({
       to: process.env.EMAIL_USER,
-      subject: "New Portfolio Contact",
-
-      html: `
-      <h2>New Contact Form Submission</h2>
-
-      <p><b>Name:</b> ${name}</p>
-
-      <p><b>Email:</b> ${email}</p>
-
-      <p><b>Message:</b></p>
-
-      <p>${message}</p>
-      `,
+      subject: ownerEmail.subject,
+      html: ownerEmail.html,
+      attachments: [getProfilePhotoAttachment()],
     });
 
-    res.status(200).json({
+    const visitorEmail = buildVisitorConfirmationEmail({ name, message });
+
+    await sendEmail({
+      to: email,
+      subject: visitorEmail.subject,
+      html: visitorEmail.html,
+      attachments: [getProfilePhotoAttachment()],
+    });
+
+    return res.status(200).json({
       success: true,
-      message: "Message sent successfully",
+      message:
+        "Message sent successfully. Please check your email for confirmation.",
     });
   } catch (err) {
-    console.log(err);
+    console.error("Contact form error:", err);
 
-    res.status(500).json({
+    if (err.message === "Email credentials are not configured") {
+      return res.status(500).json({
+        success: false,
+        message: "Email service is not configured. Please try again later.",
+      });
+    }
+
+    return res.status(500).json({
       success: false,
-      message: "Server Error",
+      message: "Failed to send message. Please try again later.",
     });
   }
 };

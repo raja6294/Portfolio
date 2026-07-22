@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef, useState } from "react";
-import { Send, Mail, MapPin, Github, Linkedin } from "lucide-react";
+import { Send, Mail, MapPin, Github, Linkedin, Instagram, CheckCircle2, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -33,6 +33,11 @@ const contactInfo = [
 const socialLinks = [
   { icon: Github, href: "https://github.com/raja6294", label: "GitHub" },
   { icon: Linkedin, href: "https://www.linkedin.com/in/rajabanerjee46", label: "LinkedIn" },
+  {
+    icon: Instagram,
+    href: "https://www.instagram.com/banerjee._06?igsh=MWt2a2lxZXkxY283Zw==",
+    label: "Instagram",
+  },
 ];
 
 export function Contact() {
@@ -46,6 +51,7 @@ export function Contact() {
   });
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
+  const [submitStatus, setSubmitStatus] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -54,11 +60,15 @@ export function Contact() {
     if (errors[name]) {
       setErrors((prev) => ({ ...prev, [name]: "" }));
     }
+    if (submitStatus) {
+      setSubmitStatus(null);
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrors({});
+    setSubmitStatus(null);
 
     // Validate form data
     const result = contactSchema.safeParse(formData);
@@ -76,22 +86,26 @@ export function Contact() {
     setLoading(true);
 
     try {
-      await submitContactForm({
+      const response = await submitContactForm({
         name: result.data.name,
         email: result.data.email,
         message: result.data.message,
       });
 
-      toast.success("Message sent!", {
-        description: "Thank you for reaching out. I'll get back to you soon.",
-      });
+      const successMessage =
+        response.message ||
+        "Message sent successfully. Please check your email for confirmation.";
+
+      setSubmitStatus({ type: "success", message: successMessage });
+      toast.success(successMessage);
       setFormData({ name: "", email: "", message: "" });
     } catch (err) {
       const serverMsg =
-        err?.response?.data?.error ||
         err?.response?.data?.message ||
+        err?.response?.data?.error ||
         "Failed to send message. Please try again.";
-      toast.error("Error", { description: serverMsg });
+      setSubmitStatus({ type: "error", message: serverMsg });
+      toast.error(serverMsg);
     } finally {
       setLoading(false);
     }
@@ -126,6 +140,26 @@ export function Contact() {
             transition={{ duration: 0.6, delay: 0.2 }}
           >
             <form onSubmit={handleSubmit} className="premium-card p-8 space-y-6">
+              {submitStatus?.type === "success" && (
+                <div
+                  role="status"
+                  className="flex items-start gap-3 rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-4 text-sm text-emerald-700 dark:text-emerald-300"
+                >
+                  <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0" />
+                  <p>{submitStatus.message}</p>
+                </div>
+              )}
+
+              {submitStatus?.type === "error" && (
+                <div
+                  role="alert"
+                  className="flex items-start gap-3 rounded-xl border border-destructive/30 bg-destructive/10 p-4 text-sm text-destructive"
+                >
+                  <AlertCircle className="mt-0.5 h-5 w-5 shrink-0" />
+                  <p>{submitStatus.message}</p>
+                </div>
+              )}
+
               <div className="space-y-2">
                 <label htmlFor="name" className="text-sm font-semibold tracking-wide">
                   Name
