@@ -1,45 +1,25 @@
-import { Moon, Sun } from "lucide-react";
-import { useEffect, useState } from "react";
+import { Sun, Moon } from "lucide-react";
 import { motion } from "framer-motion";
+import { useTheme } from "@/context/ThemeContext";
 
-export function ThemeToggle() {
-  const [isDark, setIsDark] = useState(false);
-
-  useEffect(() => {
-    const savedTheme = localStorage.getItem("theme");
-    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    const shouldBeDark = savedTheme === "dark" || (!savedTheme && prefersDark);
-    
-    setIsDark(shouldBeDark);
-    document.documentElement.classList.toggle("dark", shouldBeDark);
-  }, []);
-
-  const toggleTheme = () => {
-    const newIsDark = !isDark;
-    setIsDark(newIsDark);
-    document.documentElement.classList.toggle("dark", newIsDark);
-    localStorage.setItem("theme", newIsDark ? "dark" : "light");
-  };
+export function ThemeToggle({ className = "" }) {
+  const { isDark, toggleTheme } = useTheme();
 
   return (
     <motion.button
+      type="button"
       onClick={toggleTheme}
-      className="relative flex items-center justify-center w-12 h-12 rounded-full glass-card glow-hover"
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
+      className={`p-2 rounded-lg border border-[#E5E5E5] dark:border-[#252525] bg-[#F8F8F8] dark:bg-[#0A0A0A] hover:bg-[#EFEFEF] dark:hover:bg-[#141414] text-[#111111] dark:text-[#A0A0A0] hover:text-black dark:hover:text-white transition-colors duration-200 flex items-center justify-center ${className}`}
       aria-label="Toggle theme"
+      title={isDark ? "Switch to light theme" : "Switch to dark theme"}
     >
-      <motion.div
-        initial={false}
-        animate={{ rotate: isDark ? 180 : 0 }}
-        transition={{ duration: 0.5, ease: "easeInOut" }}
-      >
-        {isDark ? (
-          <Moon className="w-5 h-5 text-primary" />
-        ) : (
-          <Sun className="w-5 h-5 text-primary" />
-        )}
-      </motion.div>
+      {isDark ? (
+        <Sun className="w-4 h-4 text-[#A0A0A0] hover:text-white transition-colors" />
+      ) : (
+        <Moon className="w-4 h-4 text-[#111111] hover:text-black transition-colors" />
+      )}
     </motion.button>
   );
 }

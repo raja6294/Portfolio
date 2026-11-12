@@ -1,215 +1,122 @@
 import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
-import { useRef } from "react";
-import { GraduationCap, Code2, Rocket, Heart, Download } from "lucide-react";
+import { GraduationCap, Code2, Cpu, Sparkles, FileText } from "lucide-react";
 
-const highlights = [
+const aboutCards = [
   {
     icon: GraduationCap,
     title: "Education",
-    description: "3rd Year B.Tech student in Information Technology",
+    subtitle: "B.Tech in Information Technology",
+    description: "JIS College of Engineering (2024–2028) · GPA: 8.56/10",
   },
   {
     icon: Code2,
-    title: "Development",
-    description: "Passionate about full-stack web development",
+    title: "Full-Stack Development",
+    subtitle: "MERN Stack Specialist",
+    description: "Building scalable web architectures with MongoDB, Express, React, and Node.js.",
   },
   {
-    icon: Rocket,
-    title: "Innovation",
-    description: "Always learning new technologies and frameworks",
+    icon: Cpu,
+    title: "AI & Innovation",
+    subtitle: "Agentic Systems & Vision",
+    description: "Integrating LLM workflows, computer vision, and machine learning into production apps.",
   },
   {
-    icon: Heart,
-    title: "Passion",
-    description: "Full-Stack Development\nArtificial Intelligence\nUI/UX Design\nPlaying Guitar",
+    icon: Sparkles,
+    title: "Core Values",
+    subtitle: "Execution & Craftsmanship",
+    description: "Clean code, performance-driven design, and continuous technical exploration.",
   },
 ];
 
-function DownloadCVButton() {
-  const buttonRef = useRef(null);
-
-  const createRipple = (e) => {
-    const button = buttonRef.current;
-    if (!button) return;
-    const rect = button.getBoundingClientRect();
-    const size = Math.max(rect.width, rect.height);
-    const x = e.clientX - rect.left - size / 2;
-    const y = e.clientY - rect.top - size / 2;
-
-    const ripple = document.createElement("span");
-    ripple.style.cssText = `
-      position: absolute;
-      width: ${size}px;
-      height: ${size}px;
-      left: ${x}px;
-      top: ${y}px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.3);
-      transform: scale(0);
-      animation: cv-ripple 0.65s linear;
-      pointer-events: none;
-      z-index: 10;
-    `;
-    button.appendChild(ripple);
-    setTimeout(() => ripple.remove(), 750);
-  };
-
-  return (
-    <>
-      <motion.a
-        ref={buttonRef}
-        href="/resume/Raja_Banerjee_Resume.pdf"
-        download="Raja_Banerjee_Resume.pdf"
-        onClick={createRipple}
-        whileHover={{ y: -3, scale: 1.05 }}
-        whileTap={{ scale: 0.96 }}
-        transition={{ duration: 0.3, ease: "easeOut" }}
-        aria-label="Download resume PDF"
-        className="group cv-download-btn relative overflow-hidden inline-flex items-center justify-center gap-2.5 font-semibold px-8 py-3.5 rounded-xl text-sm text-white mt-2 border border-white/20 bg-gradient-to-r from-cyan-500 via-sky-500 to-violet-500 shadow-[0_0_0_1px_rgba(255,255,255,0.15),0_10px_30px_rgba(14,165,233,0.28)] transition-all duration-300"
-      >
-        <span className="absolute inset-0 rounded-xl bg-gradient-to-r from-cyan-400/40 via-sky-400/20 to-violet-500/40 opacity-0 blur-sm transition-opacity duration-300 group-hover:opacity-100" />
-        <span className="absolute inset-0 rounded-xl bg-gradient-to-r from-cyan-500 via-sky-500 to-violet-500" />
-        <span className="cv-shimmer absolute inset-0 rounded-xl z-0" />
-        <span className="relative z-10 inline-flex items-center gap-2.5 tracking-wide">
-          <Download className="w-4 h-4" />
-          <span>Download CV</span>
-        </span>
-      </motion.a>
-
-      <style>{`
-        @keyframes cv-ripple {
-          to { transform: scale(4); opacity: 0; }
-        }
-        .cv-download-btn {
-          box-shadow: 0 0 0 1px rgba(255,255,255,0.15), 0 10px 30px rgba(14,165,233,0.28);
-          transition: box-shadow 0.3s ease, transform 0.3s ease;
-        }
-        .cv-download-btn:hover {
-          box-shadow: 0 0 30px rgba(34,211,238,0.35), 0 12px 40px rgba(139,92,246,0.3);
-        }
-        .cv-shimmer {
-          background: linear-gradient(
-            45deg,
-            transparent 40%,
-            rgba(255, 255, 255, 0.35) 50%,
-            transparent 60%
-          );
-          background-size: 200% 200%;
-          animation: shimmer-slide 2.5s infinite linear;
-          border-radius: inherit;
-        }
-        @keyframes shimmer-slide {
-          0% { background-position: -100% 0; }
-          100% { background-position: 200% 0; }
-        }
-      `}</style>
-    </>
-  );
-}
-
 export function About() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-
   return (
-    <section id="about" className="py-24 relative overflow-hidden bg-background">
-      {/* Background accents */}
-      <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-primary/5 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3 pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-accent/5 rounded-full blur-[80px] translate-y-1/3 -translate-x-1/3 pointer-events-none" />
-
-      <div className="section-container relative" ref={ref}>
-        {/* Heading */}
+    <section
+      id="about"
+      className="py-24 sm:py-32 bg-white dark:bg-[#050505] text-[#111111] dark:text-white border-t border-[#E5E5E5] dark:border-[#252525]/40 transition-colors duration-200"
+    >
+      <div className="section-container">
+        {/* Section Header */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="mb-14 sm:mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight">
-            Get to Know <span className="gradient-text">Me</span>
+          <span className="text-xs uppercase tracking-widest font-mono text-[#777777] mb-2 block">
+            About Me
+          </span>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-[#111111] dark:text-white mb-6">
+            Engineering scalable web apps with precision & purpose
           </h2>
+          <div className="space-y-4 text-[#555555] dark:text-[#A0A0A0] text-base sm:text-lg leading-relaxed max-w-3xl">
+            <p>
+              I'm a 3rd-year Information Technology undergraduate at{" "}
+              <span className="text-[#111111] dark:text-white font-medium">JIS College of Engineering</span> with a strong passion
+              for constructing resilient, user-centric software.
+            </p>
+            <p>
+              My expertise centers around the <span className="text-[#111111] dark:text-white font-medium">MERN stack</span>, complemented by
+              solid fundamentals in Python, Java, C, and C++. Beyond full-stack development, I explore agentic AI workflows,
+              computer vision pipelines, and blockchain-based systems.
+            </p>
+          </div>
+
+          <div className="mt-6 flex flex-wrap gap-2.5">
+            {["MERN Stack", "Agentic AI", "Python", "Clean Code", "Problem Solving"].map((tag) => (
+              <span
+                key={tag}
+                className="px-3 py-1 rounded-full text-xs font-mono border border-[#E5E5E5] dark:border-[#252525] bg-[#F8F8F8] dark:bg-[#0A0A0A] text-[#555555] dark:text-[#A0A0A0]"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Left Column - Bio Card + Download CV */}
-          <motion.div
-            initial={{ opacity: 0, x: -40 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="space-y-6"
-          >
-            <div className="premium-card p-8 space-y-6">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-tr from-cyan-400 to-purple-500 flex items-center justify-center shadow-lg">
-                  <span className="text-xl">👨‍💻</span>
-                </div>
-                <div>
-                  <h3 className="font-bold text-xl tracking-wide">Raja Banerjee</h3>
-                  <p className="text-xs text-muted-foreground mono-text">@raja6294</p>
-                </div>
+        {/* 2x2 Clean Minimalist Grid */}
+        <div className="grid sm:grid-cols-2 gap-4 sm:gap-6">
+          {aboutCards.map((card, index) => (
+            <motion.div
+              key={card.title}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: index * 0.1 }}
+              className="p-6 sm:p-7 rounded-2xl bg-[#F8F8F8] dark:bg-[#0A0A0A] border border-[#E5E5E5] dark:border-[#252525] hover:border-[#CCCCCC] dark:hover:border-[#404040] transition-colors duration-200"
+            >
+              <div className="w-10 h-10 rounded-xl border border-[#E5E5E5] dark:border-[#252525] bg-white dark:bg-[#121212] flex items-center justify-center text-[#111111] dark:text-white mb-5 shadow-sm">
+                <card.icon className="w-5 h-5 text-[#555555] dark:text-neutral-300" />
               </div>
-
-              <p className="text-muted-foreground leading-relaxed text-sm md:text-base">
-                I'm a 3rd year B.Tech student pursuing Information Technology at{" "}
-                <span className="text-foreground font-semibold">JIS College of Engineering</span>.
-                My journey in programming started with curiosity about how web technologies interact,
-                which blossomed into a deep passion for building high-performance full-stack web applications.
+              <h3 className="text-lg font-semibold text-[#111111] dark:text-white mb-1">{card.title}</h3>
+              <p className="text-xs font-mono uppercase tracking-wider text-[#777777] mb-2.5">
+                {card.subtitle}
               </p>
-
-              <p className="text-muted-foreground leading-relaxed text-sm md:text-base">
-                I specialize in the <span className="text-cyan-400 font-semibold">MERN Stack</span> (MongoDB, Express.js, React.js, Node.js)
-                and possess a strong foundation in <span className="text-purple-400 font-semibold">C, C++, and Python</span>.
-                I am highly motivated to explore emerging architectures and construct robust digital products.
+              <p className="text-sm text-[#555555] dark:text-[#A0A0A0] leading-relaxed">
+                {card.description}
               </p>
-
-              <div className="flex flex-wrap gap-2 pt-2">
-                {["Problem Solver", "Quick Learner", "Team Player", "Detail Oriented"].map((trait) => (
-                  <span key={trait} className="tech-badge text-[11px] font-semibold">
-                    {trait}
-                  </span>
-                ))}
-              </div>
-
-              {/* Download CV Button */}
-              <div className="pt-2">
-                <DownloadCVButton />
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Right Column - Highlight Grid */}
-          <motion.div
-            initial={{ opacity: 0, x: 40 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="grid grid-cols-2 gap-4"
-          >
-            {highlights.map((item, index) => {
-              const borderColors = [
-                "border-l-cyan-500",
-                "border-l-purple-500",
-                "border-l-indigo-500",
-                "border-l-emerald-500",
-              ];
-              return (
-                <motion.div
-                  key={item.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
-                  className={`premium-card p-6 card-3d glow-hover group border-l-4 ${borderColors[index % borderColors.length]}`}
-                >
-                  <div className="w-12 h-12 rounded-xl bg-secondary/50 flex items-center justify-center mb-4 group-hover:bg-primary/10 border border-border/40 transition-colors">
-                    <item.icon className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
-                  </div>
-                  <h4 className="font-bold text-base mb-1 group-hover:text-primary transition-colors">{item.title}</h4>
-                  <p className="text-xs text-muted-foreground leading-relaxed">{item.description}</p>
-                </motion.div>
-              );
-            })}
-          </motion.div>
+            </motion.div>
+          ))}
         </div>
+
+        {/* Action Link */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+          className="mt-12 text-center sm:text-left"
+        >
+          <a
+            href="/resume/Raja_Banerjee_Resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-sm font-medium text-[#111111] dark:text-white hover:text-[#555555] dark:hover:text-[#A0A0A0] transition-colors duration-200"
+          >
+            <FileText className="w-4 h-4" />
+            <span>Read full resume / curriculum vitae →</span>
+          </a>
+        </motion.div>
       </div>
     </section>
   );

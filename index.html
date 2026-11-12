@@ -7,15 +7,34 @@
     <meta name="description" content="Portfolio of Raja Banerjee - MERN Stack Developer & IT Student at JIS College of Engineering" />
     <meta name="author" content="Raja Banerjee" />
 
-    <meta property="og:title" content="Raja Portfolio" />
-    <meta property="og:description" content="Portfolio of Raja Banerjee - MERN Stack Developer & IT Student" />
+    <meta property="og:title" content="Raja Banerjee | MERN Stack Developer" />
+    <meta property="og:description" content="Portfolio of Raja Banerjee - MERN Stack Developer building modern, scalable web applications." />
     <meta property="og:type" content="website" />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@rajabanerjee" />
+
+    <!-- Prevent theme flashing on page load/refresh -->
+    <script>
+      (function() {
+        try {
+          var saved = localStorage.getItem("theme");
+          if (saved === "light") {
+            document.documentElement.classList.remove("dark");
+          } else {
+            document.documentElement.classList.add("dark");
+          }
+        } catch (e) {}
+      })();
+    </script>
+
+    <!-- Google Fonts: Geist, Inter & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   </head>
 
-  <body>
+  <body class="bg-white dark:bg-[#050505] text-[#111111] dark:text-white transition-colors duration-200 selection:bg-neutral-800 selection:text-white dark:selection:bg-white dark:selection:text-black">
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
