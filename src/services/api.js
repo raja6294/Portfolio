@@ -46,10 +46,20 @@ export async function submitContactForm({ name, email, message }) {
     name: trimmedName,
     email: trimmedEmail,
     message: trimmedMessage,
+    to_email: "rajapalpai2022@gmail.com",
+    to_name: "Raja Banerjee",
     // Header helper aliases for EmailJS Reply-To and From Name
     reply_to: trimmedEmail,
     from_name: trimmedName,
   };
+
+  // Safe diagnostic log without exposing sensitive credentials
+  console.log("[EmailJS Dispatch Diagnostics]", {
+    serviceId: SERVICE_ID ? `${SERVICE_ID.slice(0, 10)}...` : "MISSING",
+    templateId: TEMPLATE_ID ? `${TEMPLATE_ID.slice(0, 11)}...` : "MISSING",
+    publicKeyPrefix: PUBLIC_KEY ? `${PUBLIC_KEY.slice(0, 4)}***` : "MISSING",
+    recipientConfigured: Boolean(templateParams.to_email),
+  });
 
   try {
     // Only ONE email dispatch is executed
@@ -57,7 +67,7 @@ export async function submitContactForm({ name, email, message }) {
       SERVICE_ID,
       TEMPLATE_ID,
       templateParams,
-      PUBLIC_KEY
+      { publicKey: PUBLIC_KEY }
     );
 
     if (response.status === 200) {
@@ -71,7 +81,11 @@ export async function submitContactForm({ name, email, message }) {
       );
     }
   } catch (err) {
-    console.error("[EmailJS Submission Error]", err);
+    console.error("[EmailJS Submission Error Details]", {
+      status: err?.status,
+      text: err?.text,
+      message: err?.message,
+    });
     let errorMessage = err?.text || err?.message || "Failed to send message.";
 
     if (
