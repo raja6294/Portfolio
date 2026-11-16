@@ -137,7 +137,7 @@ describe("Contact Form Validation & Submission", () => {
   it("submits successfully and resets form when EmailJS confirms delivery", async () => {
     const submitSpy = vi.spyOn(api, "submitContactForm").mockResolvedValue({
       success: true,
-      message: "Message delivered successfully. I will get back to you soon.",
+      message: "Your message has been sent successfully. I'll get back to you soon!",
     });
 
     render(
@@ -166,7 +166,7 @@ describe("Contact Form Validation & Submission", () => {
     });
 
     expect(
-      await screen.findByText("Message delivered successfully. I will get back to you soon.")
+      await screen.findByText("Your message has been sent successfully. I'll get back to you soon!")
     ).toBeInTheDocument();
 
     // Form inputs must be cleared on success

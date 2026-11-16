@@ -96,7 +96,7 @@ export function Contact() {
 
       const successMessage =
         response.message ||
-        "Message delivered successfully. I will get back to you soon.";
+        "Your message has been sent successfully. I'll get back to you soon!";
 
       setSubmitStatus({ type: "success", message: successMessage });
       toast.success(successMessage);
