@@ -6,9 +6,14 @@ const TEMPLATE_ID =
   import.meta.env.VITE_EMAILJS_CONTACT_TEMPLATE_ID;
 const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
+// Direct, permanent, publicly accessible HTTPS logo URL for email clients
+const PUBLIC_LOGO_URL =
+  "https://raw.githubusercontent.com/raja6294/Portfolio/main/public/logo-raja.jpg";
+
 /**
  * Sends contact form messages directly from the browser using EmailJS SDK.
- * No backend or Node server is required.
+ * Dynamically passes all required template variables for both owner notification
+ * and automatic confirmation emails (name, request, message, company name, logo).
  *
  * @param {{ name: string, email: string, message: string }} payload
  * @returns {Promise<{ success: boolean, message: string }>}
@@ -31,12 +36,55 @@ export async function submitContactForm({ name, email, message }) {
     );
   }
 
-  // Exact template parameters requested
+  const trimmedName = name.trim();
+  const trimmedEmail = email.trim();
+  const trimmedMessage = message.trim();
+
+  const submittedAt = new Intl.DateTimeFormat("en-IN", {
+    dateStyle: "full",
+    timeStyle: "short",
+    timeZone: "Asia/Kolkata",
+  }).format(new Date());
+
+  // Comprehensive parameter mapping to ensure 100% compatibility with:
+  // - Owner notification templates (from_name, from_email, message, to_email)
+  // - EmailJS auto-reply confirmation templates (to_name, request, message, company_name, logo_url)
   const templateParams = {
-    from_name: name.trim(),
-    from_email: email.trim(),
-    message: message.trim(),
+    // 1. Recipient & sender name variants (fixes "Hi ,")
+    name: trimmedName,
+    to_name: trimmedName,
+    from_name: trimmedName,
+    user_name: trimmedName,
+    client_name: trimmedName,
+
+    // 2. Email & Reply-To variants
+    email: trimmedEmail,
+    from_email: trimmedEmail,
+    user_email: trimmedEmail,
+    reply_to: trimmedEmail,
     to_email: "rajapalpai2022@gmail.com",
+
+    // 3. Message & Request variants (fixes `We have received your request: ""`)
+    message: trimmedMessage,
+    request: trimmedMessage,
+    user_message: trimmedMessage,
+    user_request: trimmedMessage,
+    inquiry: trimmedMessage,
+
+    // 4. Organization & Team naming (fixes `The [Company Name] Team`)
+    company_name: "Raja Banerjee",
+    team_name: "Raja Banerjee",
+    sender_name: "Raja Banerjee",
+
+    // 5. Publicly accessible HTTPS logo URL (fixes broken logo image)
+    logo_url: PUBLIC_LOGO_URL,
+    logo: PUBLIC_LOGO_URL,
+    profile_photo_url: PUBLIC_LOGO_URL,
+
+    // 6. Submission timestamp
+    time: submittedAt,
+    date: submittedAt,
+    submitted_at: submittedAt,
   };
 
   try {
@@ -50,7 +98,7 @@ export async function submitContactForm({ name, email, message }) {
     if (response.status === 200) {
       return {
         success: true,
-        message: "Message delivered successfully. I will get back to you soon.",
+        message: "Message delivered successfully. Please check your email for confirmation.",
       };
     } else {
       throw new Error(
@@ -61,7 +109,6 @@ export async function submitContactForm({ name, email, message }) {
     console.error("[EmailJS Submission Error]", err);
     let errorMessage = err?.text || err?.message || "Failed to send message.";
 
-    // Actionable error for Gmail OAuth token expiry/invalid grant
     if (
       errorMessage.toLowerCase().includes("invalid grant") ||
       errorMessage.toLowerCase().includes("gmail_api")
