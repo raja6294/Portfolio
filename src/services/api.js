@@ -52,6 +52,7 @@ export async function submitContactForm({ name, email, message }) {
   };
 
   try {
+    // Only ONE email dispatch is executed
     const response = await emailjs.send(
       SERVICE_ID,
       TEMPLATE_ID,
