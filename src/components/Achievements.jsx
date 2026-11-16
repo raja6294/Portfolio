@@ -5,23 +5,16 @@ const achievements = [
   {
     title: "1st Position – CRAZY BUILD Hackathon",
     badge: "1st Place Winner",
-    date: "2024",
+    date: "2026",
     organization: "Hackathon Circuit",
     description:
       "Awarded 1st place for architectural design and rapid end-to-end full-stack development of an interactive software prototype under strict 24-hour sprint conditions.",
   },
-  {
-    title: "Selected for Smart India Hackathon (SIH)",
-    badge: "National Finalist",
-    date: "2025",
-    organization: "Ministry of Education & AICTE",
-    description:
-      "Selected for India's flagship nation-wide innovation hackathon, building scalable technological solutions to solve pressing institutional and governance problem statements.",
-  },
+
   {
     title: "3rd Position – College Technical Fest",
     badge: "3rd Place Winner",
-    date: "2024",
+    date: "2026",
     organization: "JIS College of Engineering",
     description:
       "Won 3rd place for RakshaNetra, an AI-powered smart surveillance platform utilizing computer vision models for automated intrusion detection and alert dispatch.",
@@ -29,7 +22,7 @@ const achievements = [
   {
     title: "NPTEL Elite Certification – 83% (Programming in Java)",
     badge: "Elite Distinction",
-    date: "2024",
+    date: "2026",
     organization: "NPTEL / IIT",
     description:
       "Earned Elite status with an 83% score in Java programming, covering advanced object-oriented paradigms, concurrency, and algorithmic problem-solving.",

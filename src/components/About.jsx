@@ -57,8 +57,8 @@ export function About() {
             </p>
             <p>
               My expertise centers around the <span className="text-[#111111] dark:text-white font-medium">MERN stack</span>, complemented by
-              solid fundamentals in Python, Java, C, and C++. Beyond full-stack development, I explore agentic AI workflows,
-              computer vision pipelines, and blockchain-based systems.
+              solid fundamentals in Python, Java, C, and C++. Beyond full-stack development, I explore agentic AI workflows and
+              computer vision pipelines.
             </p>
           </div>
 

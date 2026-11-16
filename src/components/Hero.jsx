@@ -81,7 +81,7 @@ export function Hero() {
           className="text-base sm:text-lg md:text-xl text-[#555555] dark:text-[#A0A0A0] max-w-[650px] leading-relaxed mb-8 sm:mb-10 text-balance font-normal"
         >
           MERN Stack Developer building modern, scalable web applications,
-          exploring AI-powered solutions and blockchain technology.
+          exploring AI-powered solutions .
         </motion.p>
 
         {/* CTA Buttons */}

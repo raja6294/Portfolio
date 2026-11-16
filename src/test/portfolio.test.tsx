@@ -9,6 +9,7 @@ import { Projects } from "@/components/Projects";
 import { Achievements } from "@/components/Achievements";
 import { Contact } from "@/components/Contact";
 import { Footer } from "@/components/Footer";
+import App from "@/App";
 import Index from "@/pages/Index";
 
 describe("Navbar Component", () => {
@@ -136,3 +137,11 @@ describe("Index Page Complete Mount", () => {
   });
 });
 
+describe("App notification surfaces", () => {
+  it("does not mount floating toast viewports", () => {
+    render(<App />);
+
+    expect(document.querySelector(".toaster")).toBeNull();
+    expect(document.querySelector("[data-radix-toast-viewport]")).toBeNull();
+  });
+});

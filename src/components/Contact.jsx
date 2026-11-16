@@ -2,7 +2,6 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { Mail, MapPin, Send, Github, Linkedin, Instagram, ArrowUpRight, CheckCircle2, AlertCircle } from "lucide-react";
 import { submitContactForm } from "@/services/api";
-import { toast } from "sonner";
 import { z } from "zod";
 
 const contactSchema = z.object({
@@ -99,14 +98,12 @@ export function Contact() {
         "Your message has been sent successfully. I'll get back to you soon!";
 
       setSubmitStatus({ type: "success", message: successMessage });
-      toast.success(successMessage);
       setFormData({ name: "", email: "", message: "" });
     } catch (err) {
       const serverMsg =
         err?.message ||
         "Failed to send message. Please verify your EmailJS configuration or reach out at rajapalpai2022@gmail.com.";
       setSubmitStatus({ type: "error", message: serverMsg });
-      toast.error(serverMsg);
     } finally {
       setLoading(false);
     }
@@ -127,13 +124,13 @@ export function Contact() {
           className="mb-14 sm:mb-16"
         >
           <span className="text-xs uppercase tracking-widest font-mono text-[#777777] mb-2 block">
-            Initiate Contact
+            GET IN TOUCH
           </span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-[#111111] dark:text-white mb-4">
-            Let's build something together
+            Let's turn ideas into impact.
           </h2>
           <p className="text-[#555555] dark:text-[#A0A0A0] text-base sm:text-lg max-w-2xl leading-relaxed">
-            Have a project in mind, an internship opportunity, or want to discuss full-stack & AI architecture? Send a message directly.
+            Open to internships, projects, and collaborations. Feel free to reach out!
           </p>
         </motion.div>
 
